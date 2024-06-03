@@ -1,35 +1,23 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { LoginUserDto, RegisterUserDto } from './dto';
 
 @Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @MessagePattern('createAuth')
-  create(@Payload() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  @MessagePattern('loginUser')
+  login(@Payload() loginUserDto: LoginUserDto) {
+    return this.authService.login(loginUserDto);
   }
 
-  @MessagePattern('findAllAuth')
-  findAll() {
-    return this.authService.findAll();
+  @MessagePattern('registerUser')
+  register(@Payload() registerUserDTO: RegisterUserDto) {
+    return this.authService.register(registerUserDTO);
   }
-
-  @MessagePattern('findOneAuth')
-  findOne(@Payload() id: number) {
-    return this.authService.findOne(id);
-  }
-
-  @MessagePattern('updateAuth')
-  update(@Payload() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(updateAuthDto.id, updateAuthDto);
-  }
-
-  @MessagePattern('removeAuth')
-  remove(@Payload() id: number) {
-    return this.authService.remove(id);
+  @MessagePattern('verifyToken')
+  verifyToken(@Payload() token: string) {
+    return this.authService.verifyToken(token);
   }
 }
